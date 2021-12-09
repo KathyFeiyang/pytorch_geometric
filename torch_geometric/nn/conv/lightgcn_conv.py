@@ -44,7 +44,8 @@ class LightGCNConv(MessagePassing):
 
     def forward(self, x: Tensor, edge_index: Adj) -> Tensor:
         """Performs neighborhood aggregation for user/item embeddings."""
-        user_item = torch.zeros(self.num_users, self.num_items)
+        user_item = \
+                 torch.zeros(self.num_users, self.num_items, device=x.device)
         user_item[edge_index[:, 0], edge_index[:, 1]] = 1
         user_neighbor_counts = torch.sum(user_item, axis=1)
         item_neightbor_counts = torch.sum(user_item, axis=0)
